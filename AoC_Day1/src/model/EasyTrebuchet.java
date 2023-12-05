@@ -18,7 +18,7 @@ import java.util.Scanner;
 public class EasyTrebuchet {
 
 	private EasyTrebuchet() {
-		throw new IllegalStateException();
+
 	}
 
 	/**
