@@ -1,3 +1,4 @@
+
 package model;
 
 import java.io.File;
@@ -17,88 +18,100 @@ import java.util.Scanner;
  * 
  */
 public class HardTrebuchet {
-	
+
+	/**
+	 * prevents external instantiation.
+	 */
 	private HardTrebuchet() {
-		
+		throw new IllegalStateException();
 	}
 
 	/**
+	 * Runs solution.
+	 * 
 	 * @param args
+	 * @throws FileNotFoundException
 	 */
-	public static void main(String[] args) {
-		
-		String file = "files/input4.txt";
-		
+	public static void main(String[] args) throws FileNotFoundException {
+
+		String file = "AoC_Solutions\\AoC_Day1\\files\\input4.txt";
+
 		int result = solve(file);
-		
+
 		System.out.print(result);
 	}
-	
-	private static int solve(String theFile) {
-		
+
+	/**
+	 * Iterates through file and sums up digits and worded numbers.
+	 * 
+	 * @param theFile
+	 * @return int - sum of all digits and worded numbers.
+	 * @throws FileNotFoundException
+	 */
+	private static int solve(String theFile) throws FileNotFoundException {
+
 		Map<String, Character> map = createMap();
-		
+
 		int sum = 0;
-		
-		int counter = 0;
-		
+
 		File file = new File(theFile);
-				
+
+		// Keep track of digits.
 		List<Character> list = new ArrayList<>();
-		
-		try {
-			Scanner scan = new Scanner(file);
-			
-			while (scan.hasNextLine()) {
-				String line = scan.nextLine();
-				for (int i = 0; i < line.length(); i++) {
-					for (int j = i + 1; j <= line.length(); j++) {
-		                String subline = line.substring(i, j);
-		                if (Character.isDigit(subline.charAt(0))) {
-		                	String str = subline.substring(0,1);
-		                	char c = str.charAt(0);
-		                	list.add(c);
-		                }
-		                else if (map.containsKey(subline)) {
-		                	list.add(map.get(subline));
-		                }
+
+		Scanner scan = new Scanner(file);
+
+		while (scan.hasNextLine()) {
+
+			String line = scan.nextLine();
+
+			// Find string powerset of each line and convert to digits.
+			for (int i = 0; i < line.length(); i++) {
+
+				for (int j = i + 1; j <= line.length(); j++) {
+
+					String subline = line.substring(i, j);
+
+					if (Character.isDigit(subline.charAt(0))) {
+						list.add(subline.charAt(0));
 					}
+					else if (map.containsKey(subline)) {
+						list.add(map.get(subline));
+					}
+
 				}
-				
-				System.err.println(list.toString());
 
-				System.err.println("First: " + list.getFirst());
-				System.err.println("Last: " + list.getLast());
-
-				String calibration = "" + list.getFirst() + list.getLast();
-				System.err.println("Line " + counter++ + ": " + calibration);
-				sum += Integer.parseInt(calibration);
-				list.clear();
 			}
-			
-			scan.close();
-			
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+
+			// Concatenate the two digits.
+			String calibration = "" + list.getFirst() + list.getLast();
+			sum += Integer.parseInt(calibration);
+			list.clear();
 		}
-		
+
+		scan.close();
 		return sum;
 	}
-	
+
+	/**
+	 * Creates a HashMap dictionary.
+	 * 
+	 * @return HashMap<String, Character>
+	 */
 	private static HashMap<String, Character> createMap() {
-		
+
 		Map<String, Character> wordedDigitsMap = new HashMap<>();
-		
-        wordedDigitsMap.put("one", '1');
-        wordedDigitsMap.put("two", '2');
-        wordedDigitsMap.put("three", '3');
-        wordedDigitsMap.put("four", '4');
-        wordedDigitsMap.put("five", '5');
-        wordedDigitsMap.put("six", '6');
-        wordedDigitsMap.put("seven", '7');
-        wordedDigitsMap.put("eight", '8');
-        wordedDigitsMap.put("nine", '9');
-		
+
+		wordedDigitsMap.put("one", '1');
+		wordedDigitsMap.put("two", '2');
+		wordedDigitsMap.put("three", '3');
+		wordedDigitsMap.put("four", '4');
+		wordedDigitsMap.put("five", '5');
+		wordedDigitsMap.put("six", '6');
+		wordedDigitsMap.put("seven", '7');
+		wordedDigitsMap.put("eight", '8');
+		wordedDigitsMap.put("nine", '9');
+
 		return (HashMap<String, Character>) wordedDigitsMap;
 	}
 
