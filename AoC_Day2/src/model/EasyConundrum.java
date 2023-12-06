@@ -17,20 +17,14 @@ import java.util.Scanner;
  */
 public class EasyConundrum {
 
-	/**
-	 * prevents external instantiation.
-	 */
 	private EasyConundrum() {
-		throw new IllegalStateException();
+
 	}
 
 	/**
-	 * Runs solution.
-	 * 
 	 * @param args
-	 * @throws FileNotFoundException
 	 */
-	public static void main(String[] args) throws FileNotFoundException {
+	public static void main(String[] args) {
 
 		String file = "AoC_Solutions\\AoC_Day2\\files\\input.txt";
 
@@ -39,19 +33,25 @@ public class EasyConundrum {
 		System.out.print(result);
 	}
 
-	private static int solve(String theFile) throws FileNotFoundException {
+	private static int solve(String theFile) {
 
 		int sum = 0;
 
 		File file = new File(theFile);
 
-		Scanner scan = new Scanner(file);
+		try {
+			Scanner scan = new Scanner(file);
 
-		while (scan.hasNextLine()) {
-			String line = scan.nextLine();
+			while (scan.hasNextLine()) {
+				String line = scan.nextLine();
+
+			}
+			scan.close();
+
 		}
-
-		scan.close();
+		catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 
 		return sum;
 	}
